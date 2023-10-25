@@ -226,5 +226,6 @@ function lowScore(){
 // button styling
 // score styling
 // alert styling
+// ReadMe file
 //title screen
 // make it work on 3 different monitor sizes
