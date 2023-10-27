@@ -197,7 +197,7 @@ function checkMatch(){
 //game over notification
 function gameOver(){
   setTimeout(function(){
-    if (matchedCards.length === 18){
+    if (matchedCards.length === 32){
       alert('Game Over. You Win!');
       lowScore();
     }
