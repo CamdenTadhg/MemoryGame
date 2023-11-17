@@ -115,38 +115,37 @@ let shuffledBirds = shuffle(Midwest);
 // switch to bird backing
 function createDivsForBirds(birdArray) {
   for (let bird of birdArray) {
-    // create a new div
-    const newDiv = document.createElement("div");
-    // give it a class attribute for the value we are looping over
-    newDiv.classList.add(bird);
-    newDiv.style.backgroundImage = "url('images/birdrelief.jpg')";
-    newDiv.style.backgroundPosition = 'center';
-    newDiv.style.backgroundSize = 'cover';
-    // call a function handleCardClick when a div is clicked on
-    newDiv.addEventListener("click", handleCardClick);
-    // append the div to the element with an id of game
-    gameContainer.append(newDiv);
+    // create 4 divs
+    const $frontDiv = $('<div class="card-face card-face-front"><img src="images/birdrelief.jpg"></div>');
+    const $backDiv = $('<div class="card-face card-face-back"></div>');
+    const $cardDiv = $('<div class="card"></div>');
+    const $sceneDiv = $('<div class="scene scene-card"></div>')
+    //give it a class attribute for the value we are looping over
+    $cardDiv.addClass(bird);
+    //add the appropriate image to the back of the card
+    $backDiv.html(`<img src=${midwestImages[bird]}>`)
+    //call a function handleCardClick when a div is clicked on
+    $sceneDiv.on('click', handleCardClick);
+    //Append the divs to the various elements
+    $cardDiv.append($frontDiv);
+    $cardDiv.append($backDiv);
+    $sceneDiv.append($cardDiv);
+    $('#game').append($sceneDiv);
   }
 }
 
 
 
 function handleCardClick(event) {
-  //change color of card when it is clicked
+  //flip card over when it is clicked
   //can only click two cards at a time, no matter how fast you click
   //clicking on the same card twice is not a match
   if (document.getElementById('cardA') === null){
-    this.setAttribute('id', 'cardA');
-    event.target.removeAttribute('style');
-    event.target.style.backgroundImage = `url(${midwestImages[event.target.className]})`;
-    event.target.style.backgroundPosition = 'center';
-    event.target.style.backgroundSize = 'cover';
+    event.currentTarget.setAttribute('id', 'cardA');
+    event.currentTarget.children[0].classList.toggle('is-flipped');
   } else if (document.getElementById('cardB') === null){
-    this.setAttribute('id', 'cardB');
-    event.target.removeAttribute('style');
-    event.target.style.backgroundImage = `url(${midwestImages[event.target.className]})`;
-    event.target.style.backgroundPosition = 'center';
-    event.target.style.backgroundSize = 'cover';
+    event.currentTarget.setAttribute('id', 'cardB');
+    event.currentTarget.children[0].classList.toggle('is-flipped');
   } 
   checkMatch();
 }
@@ -157,20 +156,18 @@ function handleCardClick(event) {
 function checkMatch(){
   if (document.getElementById('cardA') && document.getElementById('cardB')){
     let cardA = document.getElementById('cardA');
+    console.log(cardA.children[0]);
     let cardB = document.getElementById('cardB');
-    if (cardA.style && cardB.style){
-        let stringA = cardA.getAttribute('class');
-        stringA = stringA.slice(0,4);
-        let stringB = cardB.getAttribute('class');
-        stringB = stringB.slice(0,4);
+        let stringA = cardA.children[0].getAttribute('class');
+        stringA = stringA.slice(5,9);
+        console.log(stringA);
+        let stringB = cardB.children[0].getAttribute('class');
+        stringB = stringB.slice(5,9);
+        console.log(stringB);
       if (stringA !== stringB){
         const id = setTimeout(function(){
-          cardA.style.backgroundImage = "url('images/birdrelief.jpg')";
-          cardA.style.backgroundPosition = 'center';
-          cardA.style.backgroundSize = 'cover';
-          cardB.style.backgroundImage = "url('images/birdrelief.jpg')";
-          cardB.style.backgroundPosition = 'center';
-          cardB.style.backgroundSize = 'cover';
+          cardA.children[0].classList.toggle('is-flipped');
+          cardB.children[0].classList.toggle('is-flipped');
         }, 1000);
       } else if (stringA === stringB){
         cardA.classList.add('matched');
@@ -180,7 +177,6 @@ function checkMatch(){
           matchedCards.push(cardB);
         }    
       }
-    }
     setTimeout(function(){
       cardA.removeAttribute('id');
       cardB.removeAttribute('id');
