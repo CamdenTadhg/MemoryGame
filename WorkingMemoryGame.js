@@ -414,12 +414,12 @@ function handleCardClick(event) {
   //flip card over when it is clicked
   //can only click two cards at a time, no matter how fast you click
   //clicking on the same card twice is not a match
-  if (document.getElementById('cardA') === null){
+  if (document.getElementById('cardA') === null && event.currentTarget.children[0].classList[2] !== 'is-flipped'){
     if (event.currentTarget.getAttribute('id') !== 'cardA'){
       event.currentTarget.setAttribute('id', 'cardA');
       event.currentTarget.children[0].classList.add('is-flipped');
     }
-  } else if (document.getElementById('cardB') === null){
+  } else if (document.getElementById('cardB') === null && event.currentTarget.children[0].classList[2] !== 'is-flipped'){
     if (event.currentTarget.getAttribute('id') !== 'cardB'){
       event.currentTarget.setAttribute('id', 'cardB');
       event.currentTarget.children[0].classList.add('is-flipped');
@@ -469,22 +469,27 @@ function checkMatch(){
 function gameOver(){
   setTimeout(function(){
     if (matchedCards.length === eval(numberCards)){
-      const $modal = $('#myModal');
+      const $modal = $('.modal');
       const $span = $('.close');
       $modal.css("display", "block");
+      $span.on('click', function(){
+        $modal.css('display', 'none');
+      })
       lowScore();
+      matchedCards = [];
     }
   }, 500);
 }
 
 //store the lowest-score game in local storage
 function lowScore(){
+  let $lowScore = $('.low-score');
   if (localStorage.getItem('lowScore') === null){
-    alert('New Low Score!')
+    $lowScore.css("display", "block");
     localStorage.setItem('lowScore', scoreTracker);
   }
   else if (localStorage.getItem('lowScore') > scoreTracker){
-    alert('New Low Score!')
+    $lowScore.css("display", "block");
     localStorage.setItem('lowScore', scoreTracker);
   }
 }
