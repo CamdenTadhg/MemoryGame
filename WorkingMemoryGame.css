@@ -159,7 +159,7 @@ select {
 .modal {
   display: none;
   position: relative;
-  width: 25%;
+  width: 50%;
   height: 25%;
   z-index: 99;
   color: black;
