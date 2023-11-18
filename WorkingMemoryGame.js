@@ -355,7 +355,7 @@ newGame.addEventListener('click', function(event){
   numberCards = document.querySelector('#card-number').value;
   region = document.querySelector('#region').value;
   $gameContainer.empty();
-  let selectedCards = eval(region).splice(0, numberCards);
+  let selectedCards = eval(region).slice(0, numberCards);
   shuffledBirds = shuffle(selectedCards);
   createDivsForBirds(shuffledBirds);
   scoreTracker = 0;
@@ -377,7 +377,7 @@ function shuffle(array) {
     array[counter] = array[index];
     array[index] = temp;
   }
-
+  counter = 0;
   return array;
 }
 
@@ -415,11 +415,15 @@ function handleCardClick(event) {
   //can only click two cards at a time, no matter how fast you click
   //clicking on the same card twice is not a match
   if (document.getElementById('cardA') === null){
-    event.currentTarget.setAttribute('id', 'cardA');
-    event.currentTarget.children[0].classList.toggle('is-flipped');
+    if (event.currentTarget.getAttribute('id') !== 'cardA'){
+      event.currentTarget.setAttribute('id', 'cardA');
+      event.currentTarget.children[0].classList.add('is-flipped');
+    }
   } else if (document.getElementById('cardB') === null){
-    event.currentTarget.setAttribute('id', 'cardB');
-    event.currentTarget.children[0].classList.toggle('is-flipped');
+    if (event.currentTarget.getAttribute('id') !== 'cardB'){
+      event.currentTarget.setAttribute('id', 'cardB');
+      event.currentTarget.children[0].classList.add('is-flipped');
+    }
   } 
   checkMatch();
 }
@@ -437,8 +441,8 @@ function checkMatch(){
         stringB = stringB.slice(5,9);
       if (stringA !== stringB){
         const id = setTimeout(function(){
-          cardA.children[0].classList.toggle('is-flipped');
-          cardB.children[0].classList.toggle('is-flipped');
+          cardA.children[0].classList.remove('is-flipped');
+          cardB.children[0].classList.remove('is-flipped');
         }, 1000);
       } else if (stringA === stringB){
         cardA.classList.add('matched');
@@ -464,8 +468,10 @@ function checkMatch(){
 //game over notification
 function gameOver(){
   setTimeout(function(){
-    if (matchedCards.length === 32){
-      alert('Game Over. You Win!');
+    if (matchedCards.length === eval(numberCards)){
+      const $modal = $('#myModal');
+      const $span = $('.close');
+      $modal.css("display", "block");
       lowScore();
     }
   }, 500);

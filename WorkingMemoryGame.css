@@ -62,6 +62,14 @@ form {
 
 p {
   color: white;
+  font-size: 1.5rem;
+  padding: 10px;
+  display: inline-block;
+  margin: 10px 0px;
+}
+
+container {
+  display: block;
 }
 
 .button-89 {
@@ -80,7 +88,7 @@ p {
   font-size: 16px;
 
   border: 0;
-  margin: 5px;
+  margin: 10px;
 
   user-select: none;
   -webkit-user-select: none;
@@ -97,4 +105,36 @@ p {
 .button-89:active {
   background: var(--color);
   color: #fff;
+}
+
+select {
+  font-size: 16px;
+  padding: 5px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  width: 25%;
+  height: 25%;
+  top: 100px;
+  left: 100px;
+  overflow: auto;
+  color: black;
+  background-color: white;
+  border: solid 5px black;
+}
+
+.close {
+  color: black;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
