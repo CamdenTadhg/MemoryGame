@@ -352,10 +352,11 @@ let region;
 let numberCards;
 
 newGame.addEventListener('click', function(event){
-  const numberCards = document.querySelector('#card-number').value;
+  numberCards = document.querySelector('#card-number').value;
   region = document.querySelector('#region').value;
   $gameContainer.empty();
-  shuffledBirds = shuffle(eval(region));
+  let selectedCards = eval(region).splice(0, numberCards);
+  shuffledBirds = shuffle(selectedCards);
   createDivsForBirds(shuffledBirds);
   scoreTracker = 0;
 })
@@ -364,7 +365,7 @@ newGame.addEventListener('click', function(event){
 // it returns the same array with values shuffled
 // it is based on an algorithm called Fisher Yates if you want ot research more
 function shuffle(array) {
-  let counter = array.length;
+  let counter = numberCards;
   // While there are elements in the array
   while (counter > 0) {
     // Pick a random index
