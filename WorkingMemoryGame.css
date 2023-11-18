@@ -1,7 +1,7 @@
 img {
   border: 1px solid black;
-  width: 256px;
-  height: 192px;
+  width: 10.5vw;
+  height: 10vw;
   display: inline-block;
   margin: 10px;
 }
@@ -11,8 +11,8 @@ body { font-family: sans-serif; }
 .scene {
   display: inline-block;
   margin: 10px;
-  width: 256px;
-  height: 192px;
+  width: 10.5vw;
+  height: 10vw;
   perspective: 600px;
 }
 
@@ -26,7 +26,7 @@ body { font-family: sans-serif; }
   transition: transform 1s;
 }
 
-.is-flipped {
+.card.is-flipped {
   transform: translateX(-100%) rotateY(-180deg);
 }
 
