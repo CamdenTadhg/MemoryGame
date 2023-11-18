@@ -1,5 +1,6 @@
 const $gameContainer = $('#game');
 const $optionsForm = document.getElementById("options");
+const $lowScore = $('#low-score');
 //create score
 let scoreTracker = 0;
 const scoreP = document.querySelector('.score');
@@ -350,10 +351,12 @@ const southwestImages = {
 const newGame = document.querySelector('.gamebutton');
 let region;
 let numberCards;
+let scoreCode;
 
 newGame.addEventListener('click', function(event){
   numberCards = document.querySelector('#card-number').value;
   region = document.querySelector('#region').value;
+  scoreCode = region + numberCards;
   $gameContainer.empty();
   let selectedCards = eval(region).slice(0, numberCards);
   shuffledBirds = shuffle(selectedCards);
@@ -474,6 +477,7 @@ function gameOver(){
       $modal.css("display", "block");
       $span.on('click', function(){
         $modal.css('display', 'none');
+        $lowScore.css('display', 'none');
       })
       lowScore();
       matchedCards = [];
@@ -483,14 +487,13 @@ function gameOver(){
 
 //store the lowest-score game in local storage
 function lowScore(){
-  let $lowScore = $('.low-score');
-  if (localStorage.getItem('lowScore') === null){
+  if (localStorage.getItem(scoreCode) === null){
     $lowScore.css("display", "block");
-    localStorage.setItem('lowScore', scoreTracker);
+    localStorage.setItem(scoreCode, scoreTracker);
   }
-  else if (localStorage.getItem('lowScore') > scoreTracker){
+  else if (localStorage.getItem(scoreCode) > scoreTracker){
     $lowScore.css("display", "block");
-    localStorage.setItem('lowScore', scoreTracker);
+    localStorage.setItem(scoreCode, scoreTracker);
   }
 }
 

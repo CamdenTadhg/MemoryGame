@@ -3,7 +3,14 @@ img {
   width: 10.5vw;
   height: 10vw;
   display: inline-block;
-  margin: 10px;
+  margin: 0.5vw;
+}
+
+@media screen and (max-width: 600px) {
+  img {
+    width: 22vw;
+    margin: 5px;
+  }
 }
 
 .scene {
@@ -11,7 +18,14 @@ img {
   margin: 0.5vw;
   width: 10.5vw;
   height: 10vw;
-  perspective: 600px;
+  /* perspective: 600px; */
+}
+
+@media screen and (max-width: 600px){
+  .scene{
+    margin: 0.25vw;
+    width: 22vw;
+  }
 }
 
 .card {
@@ -32,7 +46,7 @@ img {
   position: absolute;
   width: 100%;
   height: 100%;
-  line-height: 260px;
+  /* line-height: 260px; */
   text-align: center;
   backface-visibility: hidden;
 }
@@ -45,14 +59,28 @@ img {
 h1 {
   text-align: center;
   color: white;
-  font-size: 3em;
+  font-size: 3rem;
+}
+
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
 }
 
 body {
   background-image: url("images/treebranches.jpg");
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-size: cover;
   font-family: sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+
+@media screen and (max-width: 900px) {
+  body {
+    background-image: url("images/treebranches2.jpg");
+  }
 }
 
 form {
@@ -61,12 +89,24 @@ form {
   text-align: center;
 }
 
+@media screen and (max-width: 600px) {
+  form {
+    font-size: 1rem;
+  }
+}
+
 .score {
   font-size: 1.5rem;
   padding: 10px;
   display: inline-block;
   margin: 10px 0px;
   color: white;
+}
+
+@media screen and (max-width: 600px) {
+  .score {
+    font-size: 1rem;
+  }
 }
 
 #game {
@@ -119,8 +159,8 @@ select {
 .modal {
   display: none;
   position: relative;
-  width: 15%;
-  height: 15%;
+  width: 25%;
+  height: 25%;
   z-index: 99;
   color: black;
   background-color: white;
@@ -146,6 +186,13 @@ select {
   touch-action: manipulation;
 }
 
+@media screen and (max-width: 950px) {
+  .modal{
+    width: 40%;
+    height: 40%;
+  }
+}
+
 .modal-container {
   width: 100%;
   height: 100%;
@@ -163,10 +210,13 @@ select {
   cursor: pointer;
 }
 
-.low-score {
+#low-score {
   display: none;
+  text-align: center;
 }
 
 .modal-content {
   line-height: 4rem;
+  margin: auto;
+  text-align: center;
 }
