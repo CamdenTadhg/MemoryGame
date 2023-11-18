@@ -200,7 +200,7 @@ const northwestImages = {
   redw1: "'images/Northwest/redwing1.jpg'", 
   redw2: "'images/Northwest/redwing2.jpg'", 
   robi1: "'images/Northwest/robin1.jpg'", 
-  rob12: "'images/Northwest/robin2.jpg'", 
+  robi2: "'images/Northwest/robin2.jpg'", 
   spar1: "'images/Northwest/sparrow1.jpg'", 
   spar2: "'images/Northwest/sparrow2.jpg'", 
   star1: "'images/Northwest/starling1.jpg'", 
@@ -345,18 +345,17 @@ const southwestImages = {
   wren2: "'images/Southwest/wren2.jpg'"
 };
 
-// when the DOM loads
-document.addEventListener('DOMContentLoaded', function(){
-  createDivsForBirds(shuffledBirds);
-})
 
 //add button to start the game; becomes a button to restart the game once it has ended
 const newGame = document.querySelector('.gamebutton');
+let region;
+let numberCards;
 
 newGame.addEventListener('click', function(event){
-  const numberCards = document.querySelector('#card-number');
-  const region = document.querySelector('#region');
-  shuffledBirds = shuffle(window[region.value]);
+  const numberCards = document.querySelector('#card-number').value;
+  region = document.querySelector('#region').value;
+  $gameContainer.empty();
+  shuffledBirds = shuffle(eval(region));
   createDivsForBirds(shuffledBirds);
   scoreTracker = 0;
 })
@@ -381,8 +380,6 @@ function shuffle(array) {
   return array;
 }
 
-let shuffledBirds = shuffle(Midwest);
-
 // this function loops over the array of birds
 // it creates a new div and gives it a class with the value of the color
 // it also adds an event listener for a click for each card
@@ -397,7 +394,9 @@ function createDivsForBirds(birdArray) {
     //give it a class attribute for the value we are looping over
     $cardDiv.addClass(bird);
     //add the appropriate image to the back of the card
-    $backDiv.html(`<img src=${midwestImages[bird]}>`)
+    let regionTemp = region.toLowerCase();
+    let imagesObject = eval(regionTemp + 'Images');
+    $backDiv.html(`<img src=${imagesObject[bird]}>`)
     //call a function handleCardClick when a div is clicked on
     $sceneDiv.on('click', handleCardClick);
     //Append the divs to the various elements
@@ -433,10 +432,8 @@ function checkMatch(){
     let cardB = document.getElementById('cardB');
         let stringA = cardA.children[0].getAttribute('class');
         stringA = stringA.slice(5,9);
-        console.log(stringA);
         let stringB = cardB.children[0].getAttribute('class');
         stringB = stringB.slice(5,9);
-        console.log(stringB);
       if (stringA !== stringB){
         const id = setTimeout(function(){
           cardA.children[0].classList.toggle('is-flipped');
