@@ -188,7 +188,7 @@ select {
 
 @media screen and (max-width: 950px) {
   .modal{
-    width: 40%;
+    width: 50%;
     height: 40%;
   }
 }

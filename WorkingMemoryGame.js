@@ -1,10 +1,13 @@
 const $gameContainer = $('#game');
 const $optionsForm = document.getElementById("options");
 const $lowScore = $('#low-score');
+
 //create score
 let scoreTracker = 0;
 const scoreP = document.querySelector('.score');
 let matchedCards = [];
+
+//card & image variables
 const Midwest = [
     "blue1", 
     "blue2", 
@@ -38,7 +41,7 @@ const Midwest = [
     "robi2", 
     "star1", 
     "star2"
-  ];
+];
 const midwestImages = {
     blue1: "'images/Midwest/bluejay1.jpg'",
     card1: "'images/Midwest/cardinal1.jpg'",
@@ -72,7 +75,7 @@ const midwestImages = {
     owll2: "'images/Midwest/owl2.jpg'",
     star1: "'images/Midwest/starling1.jpg'",
     star2: "'images/Midwest/starling2.jpg'"
-  };
+};
 const Northeast = [
   "blub1", 
   "blub2", 
@@ -347,26 +350,28 @@ const southwestImages = {
 };
 
 
-//add button to start the game; becomes a button to restart the game once it has ended
+//add button to start a new game. 
 const newGame = document.querySelector('.gamebutton');
 let region;
 let numberCards;
 let scoreCode;
 
-newGame.addEventListener('click', function(event){
+newGame.addEventListener('click', function(){
+  //collect values from the form
   numberCards = document.querySelector('#card-number').value;
   region = document.querySelector('#region').value;
   scoreCode = region + numberCards;
   $gameContainer.empty();
+  //select the appropriate set of cards given the form values
   let selectedCards = eval(region).slice(0, numberCards);
+  //shuffle the cards
   shuffledBirds = shuffle(selectedCards);
+  //create the game board
   createDivsForBirds(shuffledBirds);
   scoreTracker = 0;
 })
 
-// here is a helper function to shuffle an array
-// it returns the same array with values shuffled
-// it is based on an algorithm called Fisher Yates if you want ot research more
+
 function shuffle(array) {
   let counter = numberCards;
   // While there are elements in the array
@@ -384,10 +389,9 @@ function shuffle(array) {
   return array;
 }
 
-// this function loops over the array of birds
-// it creates a new div and gives it a class with the value of the color
+// this function loops over the array of bird cards
+// it creates a set of divs that allow for a card flip animation
 // it also adds an event listener for a click for each card
-// switch to bird backing
 function createDivsForBirds(birdArray) {
   for (let bird of birdArray) {
     // create 4 divs
@@ -415,8 +419,9 @@ function createDivsForBirds(birdArray) {
 
 function handleCardClick(event) {
   //flip card over when it is clicked
-  //can only click two cards at a time, no matter how fast you click
-  //clicking on the same card twice is not a match
+  //can only click two cards at a time
+  //you can't click on the same card twice
+  //you can't click on a card that is already flipped over
   if (document.getElementById('cardA') === null && event.currentTarget.children[0].classList[2] !== 'is-flipped'){
     if (event.currentTarget.getAttribute('id') !== 'cardA'){
       event.currentTarget.setAttribute('id', 'cardA');
@@ -431,30 +436,31 @@ function handleCardClick(event) {
   checkMatch();
 }
 
-//if it matches, leave it like that
-//if it doesn't match, 
-// turn it back after 1 second
+//check cards for match using the class attribute
 function checkMatch(){
   if (document.getElementById('cardA') && document.getElementById('cardB')){
     let cardA = document.getElementById('cardA');
     let cardB = document.getElementById('cardB');
-        let stringA = cardA.children[0].getAttribute('class');
-        stringA = stringA.slice(5,9);
-        let stringB = cardB.children[0].getAttribute('class');
-        stringB = stringB.slice(5,9);
-      if (stringA !== stringB){
-        const id = setTimeout(function(){
-          cardA.children[0].classList.remove('is-flipped');
-          cardB.children[0].classList.remove('is-flipped');
-        }, 1000);
-      } else if (stringA === stringB){
-        cardA.classList.add('matched');
-        cardB.classList.add('matched');
-        if (matchedCards.indexOf(cardA) === -1 && matchedCards.indexOf(cardB) === -1){
-          matchedCards.push(cardA);
-          matchedCards.push(cardB);
-        }    
-      }
+    let stringA = cardA.children[0].getAttribute('class');
+    stringA = stringA.slice(5,9);
+    let stringB = cardB.children[0].getAttribute('class');
+    stringB = stringB.slice(5,9);
+    //if the cards don't match, flip them back over after 1 second
+    if (stringA !== stringB){
+      const id = setTimeout(function(){
+        cardA.children[0].classList.remove('is-flipped');
+        cardB.children[0].classList.remove('is-flipped');
+      }, 1000);
+    //if the cards match, add them to the matched array and leave them face up.
+    } else if (stringA === stringB){
+      cardA.classList.add('matched');
+      cardB.classList.add('matched');
+      if (matchedCards.indexOf(cardA) === -1 && matchedCards.indexOf(cardB) === -1){
+        matchedCards.push(cardA);
+        matchedCards.push(cardB);
+      }    
+    }
+    //reset the cardA/cardB id's for the next turn
     setTimeout(function(){
       cardA.removeAttribute('id');
       cardB.removeAttribute('id');
@@ -496,16 +502,3 @@ function lowScore(){
     localStorage.setItem(scoreCode, scoreTracker);
   }
 }
-
-
-
-
-
-// sets for different regions and number of cards
-// layout styling, including better picture sizes
-// button styling
-// score styling
-// alert styling
-// ReadMe file
-//title screen
-// make it work on 3 different monitor sizes
